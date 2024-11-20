@@ -1,17 +1,32 @@
 ---
-import FeaturedCards from "../components/featuredCards/FeaturedCards";
-import FeaturedGrid from "../components/featuredGrid/FeaturedGrid";
+import { getCollection } from 'astro:content';
+import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
-import Hero from "../components/hero/Hero";
-import LatestPost from "../components/latestPosts/LatestPost";
 import DefaultLayout from "../layouts/Default.astro";
+import Cta from '../section/cta/Cta';
+import FeaturedCards from "../section/featuredCards/FeaturedCards";
+import FeaturedGrid from '../section/featuredGrid/FeaturedGrid';
+import Hero from '../section/hero/Hero';
+import LatestPost from '../section/latestPosts/LatestPost';
+import Testimonials from '../section/testimonials/Testimonials';
 
+
+// logic
+const posts = await getCollection('blog')
+const latestPosts = posts.sort((a, b) =>{
+  if(a.data.pubDate.valueOf() === b.data.pubDate.valueOf()) return 0
+  return a.data.pubDate.valueOf() > b.data.pubDate.valueOf() ? -1 : 1
+}).slice(0,4)
 ---
 
 <DefaultLayout>
-  <Header />
-  <Hero />
-  <FeaturedCards />
-  <FeaturedGrid />
-  <LatestPost />
+  <Header client:load />
+  <Hero client:load />
+  <FeaturedCards client:load />
+  <FeaturedGrid client:load />
+  <LatestPost latestPosts={latestPosts} client:load/>
+  <Testimonials client:load />
+  <Cta client:load />
+
+  <Footer />
 </DefaultLayout>

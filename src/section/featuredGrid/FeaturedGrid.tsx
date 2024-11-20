@@ -1,5 +1,7 @@
-import CommanButton from "../commanButton/CommanButton";
-import TextButton from "../textButton/TextButton";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import CommanButton from "../../components/commanButton/CommanButton";
+import TextButton from "../../components/textButton/TextButton";
 
 const listItem = [
   "Experience unparalleled security and scalability",
@@ -8,6 +10,62 @@ const listItem = [
   "Fully benefits from scalability network effects",
 ];
 const FeaturedGrid = () => {
+  const torusKnotRef = useRef(null);
+  const firstHemisphereRef = useRef(null);
+
+  const { scrollYProgress: torusKnotScrollYProgress } = useScroll({
+    target: torusKnotRef,
+    offset: ["start end", "end start"],
+  });
+
+  const torusKnotTranslateY = useTransform(
+    torusKnotScrollYProgress,
+    [0, 1],
+    [100, -100]
+  );
+
+  const torusKnotRotate = useTransform(
+    torusKnotScrollYProgress,
+    [0, 1],
+    [30, -30]
+  );
+
+  const { scrollYProgress: firstHemisphereScrollYProgress } = useScroll({
+    target: firstHemisphereRef,
+    offset: ["start end", "end start"],
+  });
+
+  const firstHemisphereTranslateY = useTransform(
+    firstHemisphereScrollYProgress,
+    [0, 1],
+    [50, -50]
+  );
+
+  const firstHemisphereRotate = useTransform(
+    firstHemisphereScrollYProgress,
+    [0, 1],
+    [-20, 10]
+  );
+
+  const coneRef = useRef(null);
+
+  const { scrollYProgress: conScrollYProgress } = useScroll({
+    target: coneRef,
+    offset: ["start end", "end start"],
+  });
+
+  const coneTranslateY = useTransform(
+    firstHemisphereScrollYProgress,
+    [100, -100],
+    [50, -50]
+  );
+
+  const coneRotate = useTransform(
+    firstHemisphereScrollYProgress,
+    [0, 1],
+    [140, 45]
+  );
+
   return (
     <section className="py-24 overflow-x-clip ">
       <div className="container">
@@ -43,15 +101,25 @@ const FeaturedGrid = () => {
 
             <div className="hidden md:block">
               <div className="relative inline-flex z-0">
-                <img
+                <motion.img
                   src="/assets/images/torus-knot.png"
                   alt="image"
                   className="size-96 max-w-none"
+                  ref={torusKnotRef}
+                  style={{
+                    translateY: torusKnotTranslateY,
+                    rotate: torusKnotRotate,
+                  }}
                 />
-                <img
+                <motion.img
                   src="/assets/images/hemisphere.png"
                   alt="image"
                   className="absolute size-96 top-3/4 -z-10 scale-x-[-1]"
+                  ref={firstHemisphereRef}
+                  style={{
+                    translateY: firstHemisphereTranslateY,
+                    rotate: firstHemisphereRotate,
+                  }}
                 />
               </div>
             </div>
@@ -62,12 +130,17 @@ const FeaturedGrid = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="relative hidden md:block">
               <div className="absolute right-0 z-0 ">
-                <img
+                <motion.img
                   src="/assets/images/cone.png"
                   alt="image"
                   className="size-96 max-w-none rotate-12"
+                  ref={coneRef}
+                  style={{
+                    translateY: coneTranslateY,
+                    rotate: coneRotate,
+                  }}
                 />
-                <img
+                <motion.img
                   src="/assets/images/hemisphere.png"
                   alt="image"
                   className="absolute top-3/4 -z-10 right-0 "

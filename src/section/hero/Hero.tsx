@@ -1,8 +1,45 @@
-import Circle from "../circle/Circle";
-import CommanButton from "../commanButton/CommanButton";
-import Hexagon from "../hexagon/Hexagon";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import Circle from "../../components/circle/Circle";
+import CommanButton from "../../components/commanButton/CommanButton";
+import Hexagon from "../../components/hexagon/Hexagon";
 
 const Hero = () => {
+  const motionRef = useRef(null);
+  const cubeRef = useRef(null);
+  const torusRef = useRef(null);
+  const cuboidRef = useRef(null);
+
+  const { scrollYProgress: cuboidScrollYProgress } = useScroll({
+    target: cuboidRef,
+    offset: ["start end", "end start"],
+  });
+
+  const { scrollYProgress: torusScrollYProgress } = useScroll({
+    target: torusRef,
+    offset: ["start end", "end start"],
+  });
+
+  const { scrollYProgress: cubeScrollYProgress } = useScroll({
+    target: cubeRef,
+    offset: ["start end", "end start"],
+  });
+
+  const { scrollYProgress } = useScroll({
+    target: motionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const motionScrollYProgress = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [30, -45]
+  );
+
+  const cubeRotate = useTransform(cubeScrollYProgress, [0, 1], [100, -45]);
+  const torusRotate = useTransform(torusScrollYProgress, [0, 1], [20, -20]);
+  const cuboidRotate = useTransform(cuboidScrollYProgress, [0, 1], [20, -20]);
+
   return (
     <section className="py-24 md:py-52 overflow-x-clip">
       <div className="container">
@@ -34,46 +71,66 @@ const Hero = () => {
             {/* CUBE IMAGE */}
 
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <Circle className="absolute left-[270px] -top-[900px]">
-                <img
+              <Circle className="absolute left-[270px] -top-[900px]" animate>
+                <motion.img
                   src="/assets/images/cube.png"
                   alt="cube image"
                   className="size-[140px]"
+                  ref={cubeRef}
+                  style={{
+                    rotate: cubeRotate,
+                  }}
                 />
               </Circle>
             </div>
 
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <Circle className="absolute left-[200px] top-[270px]">
-                <img
+              <Circle className="absolute left-[200px] top-[270px]" animate>
+                <motion.img
                   src="/assets/images/cuboid.png"
                   alt="cube image"
                   className="size-[140px]"
+                  ref={cuboidRef}
+                  style={{
+                    rotate: cuboidRotate,
+                  }}
                 />
               </Circle>
             </div>
 
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-              <Circle className="absolute -left-[600px] -top-[80px]">
-                <img
+              <Circle className="absolute -left-[600px] -top-[80px]" animate>
+                <motion.img
                   src="/assets/images/torus.png"
                   alt="cube image"
                   className="size-[140px]"
+                  ref={torusRef}
+                  style={{
+                    rotate: torusRotate,
+                  }}
                 />
               </Circle>
             </div>
 
             {/* IMAGES */}
-            <img
-              src="/assets/images/icosahedron.png"
-              alt=""
-              className="absolute w-[calc(100%+100px)] max-w-none -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 saturate-[10%] brightness-[4%] hue-rotate-[240deg]"
-            />
-            <img
-              src="/assets/images/icosahedron.png"
-              alt="image"
-              className="w-[500px]"
-            />
+            <motion.div
+              className="inline-flex"
+              ref={motionRef}
+              style={{
+                rotate: motionScrollYProgress,
+              }}
+            >
+              <img
+                src="/assets/images/icosahedron.png"
+                alt=""
+                className="absolute w-[calc(100%+100px)] max-w-none -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 saturate-[10%] brightness-[4%] hue-rotate-[240deg]"
+              />
+              <img
+                src="/assets/images/icosahedron.png"
+                alt="image"
+                className="w-[500px]"
+              />
+            </motion.div>
           </div>
         </div>
 
