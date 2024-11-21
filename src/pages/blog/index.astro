@@ -1,7 +1,106 @@
 ---
-// import { getCollection } from 'astro:content';
+import { getCollection } from "astro:content";
+import { motion } from "framer-motion";
+import { twMerge } from "tailwind-merge";
+import Cards from "../../components/cards/Cards";
+import CommanButton from "../../components/commanButton/CommanButton";
+import Hexagon from "../../components/hexagon/Hexagon";
+import Tag from "../../components/tag/Tag";
+import DefaultLayout from "../../layouts/Default.astro";
+import { getPostColorFromCategory } from "../../utils/postUtils";
 
-// const posts = (await getCollection('blog')).sort(
-// 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-// );
+// LOGIC
+const posts = (await getCollection('blog')).sort(
+    	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+    );
+
+const latestPost = posts[0]
 ---
+
+<DefaultLayout>
+    <section class="py-60 relative overflow-x-clip">
+       <!-- HEXAGON -->
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <Hexagon className="size-[800px]" client:load/>
+        </div>
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <Hexagon className="size-[1200px]" client:load/>
+        </div>
+
+        <div class="container">
+            <div class="max-w-3xl mx-auto">
+            <p class="uppercase font-extrabold text-center text-zinc-500 tracking-wider">Latest Post</p>
+            <h1 class="font-heading font-black text-5xl md:text-6xl lg:text-7xl text-center mt-4">
+                {latestPost.data.title}
+            </h1>
+            <p class="text-center text-2xl mt-6 text-zinc-400 max-w-xl mx-auto">
+                {latestPost.data.description}
+            </p>
+            <div class="flex justify-center mt-10">
+              <a href={`/blog/${latestPost.slug}`}>
+                  <CommanButton>Read More</CommanButton>
+                </a>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <section class="pb-[1000px] py-32 bg-zinc-900/30 backdrop-blur-sm relative">
+        <div class="container">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="flex flex-col gap-12">
+                    {posts.map(({data:{category, title, description}, slug}, index) =>{
+                        return <motion.a href={`/blog/${slug}`} client:load
+                        initial={{
+                            opacity:0,y:20
+                        }}
+                        whileInView={{opacity:1,y:0}}
+                        viewport={{
+                            once:true, amount:0.5
+                        }}
+                        transition={{
+                            duration:0.5,
+                            ease:'easeIn'
+                        }}
+                        className={twMerge(index % 2 === 0 ? '': 'block md:hidden')}>                         
+                        <Cards buttonText="Read More" color={getPostColorFromCategory(category)}>
+                            <Tag color={getPostColorFromCategory(category)}>
+                                {category}
+                            </Tag>
+                            <h2 class="font-heading font-black text-3xl mt-4">{title}</h2>
+                            <p class="text-lg mt-6 text-zinc-400">{description}</p>
+                        </Cards>
+                    </motion.a>
+                    })}
+                </div>
+
+                <div class="md:flex flex-col gap-12 mt-24 hidden">
+                    {posts.map(({data:{category, title, description}, slug}, index) =>{
+                        return <motion.a client:load href={`/blog/${slug}`} 
+                        initial={{
+                            opacity:0,y:20
+                        }}
+                        whileInView={{opacity:1,y:0}}
+                        viewport={{
+                            once:true, amount:0.5
+                        }}
+                        transition={{
+                            duration:0.5,
+                            ease:'easeIn'
+                        }}
+                        className={twMerge(index % 2 === 0 ? 'hidden' : "")}>                        
+                        <Cards buttonText="Read More" color={getPostColorFromCategory(category)}>
+                            <Tag color={getPostColorFromCategory(category)}>
+                                {category}
+                            </Tag>
+                            <h2 class="font-heading font-black text-3xl mt-4">{title}</h2>
+                            <p class="text-lg mt-6 text-zinc-400">{description}</p>
+                        </Cards>
+                    </motion.a>
+                    })}
+                </div>
+            </div>
+        </div>
+    </section>
+    
+</DefaultLayout>
