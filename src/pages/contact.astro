@@ -1,0 +1,36 @@
+---
+import CommanButton from "../components/commanButton/CommanButton";
+import InteriorContent from "../components/interiorContent/InteriorContent.astro";
+import InteriorHero from "../components/interiorHero/InteriorHero.astro";
+import DefaultLayout from "../layouts/Default.astro";
+
+---
+
+<DefaultLayout>
+    <InteriorHero>
+        <p class="uppercase font-extrabold text-center text-zinc-500 tracking-wider">Let's Talk</p>
+        <h1 class="font-heading font-black text-5xl md:text-6xl lg:text-7xl text-center mt-4">Contact US</h1>
+        <p class="text-center text-xl md:text-2xl mt-6 max-w-xl mx-auto text-zinc-400">we are always looking for talented individuals passionate about building blockchain products that make a difference</p>
+    </InteriorHero>
+
+    <InteriorContent>
+        <div class="pb-[100px] max-w-xl mx-auto">
+            <h2 class="font-heading font-black text-3xl">What Can we help you</h2>
+            <form class="flex flex-col mt-8">
+                <label for="name">Name</label>
+                <div class="relative">
+                    <div class="absolute inset-0 outline outline-2 -outline-offset-2 outline-fuchsia-500 [mask-image:linear-gradient(225deg, transparent, transparent_10px, black_10px)] "/>
+                    <input type="text" name="name" id="name" class="bg-transparent h-12"/>
+                </div>
+               
+                    <label for="email" class="mt-4">Email</label>
+                    <input type="email" name="email" id="email"/>
+               
+                    <label for="message" class="mt-4">Message</label>
+                    <textarea  name="message" id="message"/>
+
+                    <CommanButton className="mt-4">Send Message</CommanButton>
+            </form>
+        </div>
+    </InteriorContent>
+</DefaultLayout>

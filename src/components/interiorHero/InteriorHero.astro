@@ -1,0 +1,17 @@
+---
+import Hexagon from "../hexagon/Hexagon";
+---
+
+<section class="py-60 relative overflow-x-clip">
+    <!-- HEXAGON -->
+     <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+         <Hexagon className="size-[800px]" client:load/>
+     </div>
+     <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+         <Hexagon className="size-[1200px]" client:load/>
+     </div>
+
+     <div class="container">
+       <slot/>
+ </div>
+ </section>
