@@ -20,7 +20,13 @@ const Header = () => {
           <div className="flex justify-between items-center h-24 md:h-28">
             {/* Logo */}
             <div>
-              <img src="/assets/images/logo.svg" alt="logo" className="h-10" />
+              <a href="/">
+                <img
+                  src="/assets/images/logo.svg"
+                  alt="logo"
+                  className="h-10"
+                />
+              </a>
             </div>
 
             {/* Button for large screens */}

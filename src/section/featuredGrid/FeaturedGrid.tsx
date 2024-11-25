@@ -63,7 +63,7 @@ const FeaturedGrid = () => {
   const coneRotate = useTransform(
     firstHemisphereScrollYProgress,
     [0, 1],
-    [140, 45]
+    [180, 45]
   );
 
   return (
