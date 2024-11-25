@@ -1,9 +1,10 @@
 ---
 import CommanButton from "../components/commanButton/CommanButton";
+import Input from '../components/input/Input.astro';
 import InteriorContent from "../components/interiorContent/InteriorContent.astro";
 import InteriorHero from "../components/interiorHero/InteriorHero.astro";
+import TextArea from '../components/textArea/TextArea.astro';
 import DefaultLayout from "../layouts/Default.astro";
-
 ---
 
 <DefaultLayout>
@@ -14,22 +15,19 @@ import DefaultLayout from "../layouts/Default.astro";
     </InteriorHero>
 
     <InteriorContent>
-        <div class="pb-[100px] max-w-xl mx-auto">
-            <h2 class="font-heading font-black text-3xl">What Can we help you</h2>
-            <form class="flex flex-col mt-8">
-                <label for="name">Name</label>
-                <div class="relative">
-                    <div class="absolute inset-0 outline outline-2 -outline-offset-2 outline-fuchsia-500 [mask-image:linear-gradient(225deg, transparent, transparent_10px, black_10px)] "/>
-                    <input type="text" name="name" id="name" class="bg-transparent h-12"/>
-                </div>
-               
-                    <label for="email" class="mt-4">Email</label>
-                    <input type="email" name="email" id="email"/>
-               
-                    <label for="message" class="mt-4">Message</label>
-                    <textarea  name="message" id="message"/>
+        <div class="pb-[1000px] max-w-xl mx-auto">
+            <h2 class="font-heading font-black text-3xl">What can you help with ?</h2>
 
-                    <CommanButton className="mt-4">Send Message</CommanButton>
+            <form class="flex flex-col mt-8" name="contact" method="POST" data-netlify="true">
+                <label for="name">Name</label>
+                 <Input type="text" name="name" id="id" class="mt-1" />
+             
+                    <label for="email" class="mt-4">Email</label>
+                <Input type="email" name="email" id="email" class="mt-1"/>
+                
+                <label for="message" class="mt-4">Message</label>
+                <TextArea name="message" id="message" class="mt-1"/>
+                <CommanButton className="mt-4">Send Button</CommanButton>
             </form>
         </div>
     </InteriorContent>
